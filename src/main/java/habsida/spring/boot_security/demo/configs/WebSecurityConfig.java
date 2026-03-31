@@ -1,29 +1,21 @@
 package habsida.spring.boot_security.demo.configs;
 
-import habsida.spring.boot_security.demo.service.UserServiceImp;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-    private final UserServiceImp userServiceImp;
-    private final PasswordEncoder passwordEncoder;
     private final SuccessUserHandler successUserHandler;
 
-    public WebSecurityConfig(UserServiceImp userServiceImp, SuccessUserHandler successUserHandler, PasswordEncoder passwordEncoder) {
-        this.userServiceImp = userServiceImp;
+    public WebSecurityConfig(SuccessUserHandler successUserHandler) {
         this.successUserHandler = successUserHandler;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Bean
@@ -32,9 +24,9 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 
-                        .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/user", "/user/**").hasAnyRole("USER", "ADMIN")
 
-                        .requestMatchers("/", "/login").permitAll()
+                        .requestMatchers("/", "/login", "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
 
                         .anyRequest().authenticated()
                 ).formLogin(form -> form
