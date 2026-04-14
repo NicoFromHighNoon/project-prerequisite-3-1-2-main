@@ -6,14 +6,20 @@
 </head>
 <body>
 
-<h1>Welcome, <span th:text="${user.username}"></span>!</h1>
+<h1 th:if="${user != null}" th:text="'Welcome, ' + ${user.username} + '!'">Welcome!</h1>
 
-<p><strong>First Name:</strong> <span th:text="${user.firstName}"></span></p>
-<p><strong>Last Name:</strong>  <span th:text="${user.lastName}"></span></p>
-<p><strong>Email:</strong>       <span th:text="${user.email}"></span></p>
+<div th:if="${user != null}">
+    <p><strong>First Name:</strong> <span th:text="${user.firstName}"></span></p>
+    <p><strong>Last Name:</strong>  <span th:text="${user.lastName}"></span></p>
+    <p><strong>Email:</strong>       <span th:text="${user.email}"></span></p>
+</div>
+
+<div th:if="${error}" style="color:red;">
+    <p th:text="${error}"></p>
+</div>
 
 <br>
-<form th:action="@{/logout}" method="post">
+<form th:action="@{/logout}" method="post" th:if="${user != null}">
     <button type="submit">Logout</button>
 </form>
 

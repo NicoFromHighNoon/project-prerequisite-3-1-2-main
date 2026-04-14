@@ -3,6 +3,7 @@ package habsida.spring.boot_security.demo.controller;
 import habsida.spring.boot_security.demo.model.User;
 import habsida.spring.boot_security.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,9 @@ public class UserController {
         }
 
         String username = principal.getName();
-        User currentUser = userService.findByUsername(username);
+
+        User currentUser = userService.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
 
         model.addAttribute("user", currentUser);
         return "user";
@@ -67,4 +70,6 @@ public class UserController {
         userService.removeUser(id);
         return "redirect:/admin";
     }
+
+
 }

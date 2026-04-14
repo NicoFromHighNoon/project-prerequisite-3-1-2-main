@@ -16,7 +16,7 @@ public class SuccessUserHandler implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException {
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
-        String targetUrl = isAdmin ? "/admin/" : "/user/";
+        String targetUrl = isAdmin ? "/admin" : "/user";
 
         httpServletResponse.sendRedirect(targetUrl);
     }
