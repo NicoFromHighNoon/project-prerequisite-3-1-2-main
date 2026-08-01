@@ -2,10 +2,10 @@ package habsida.spring.boot_security.demo.dao;
 
 import habsida.spring.boot_security.demo.model.User;
 import jakarta.persistence.NoResultException;
-import org.springframework.stereotype.Repository;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 import java.util.Optional;
 

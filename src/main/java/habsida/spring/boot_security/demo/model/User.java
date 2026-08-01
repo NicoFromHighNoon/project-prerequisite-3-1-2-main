@@ -19,6 +19,7 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
     private String email;
+    private Integer age;
 
     @Column(unique = true, nullable = false)
     private String username;
@@ -97,6 +98,14 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -115,5 +124,13 @@ public class User implements UserDetails {
 
     public void addRole(Role role) {
         this.roles.add(role);
+    }
+
+    public boolean hasRole(String roleName) {
+        if (roleName == null) {
+            return false;
+        }
+        String full = roleName.startsWith("ROLE_") ? roleName : "ROLE_" + roleName.toUpperCase();
+        return roles.stream().anyMatch(r -> full.equals(r.getName()));
     }
 }

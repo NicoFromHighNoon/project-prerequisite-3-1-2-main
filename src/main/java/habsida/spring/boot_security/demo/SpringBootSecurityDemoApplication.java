@@ -26,7 +26,7 @@ public class SpringBootSecurityDemoApplication {
                 admin.setPassword(passwordEncoder.encode("admin123"));
                 admin.setFirstName("Admin");
                 admin.setLastName("123");
-                admin.setEmail("admin@gmail.com");
+                admin.setEmail("admin123@gmail.com");
 
                 Role adminRole = new Role("ROLE_ADMIN");
                 admin.addRole(adminRole);

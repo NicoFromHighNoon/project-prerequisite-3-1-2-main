@@ -48,6 +48,18 @@ public class UserServiceImp implements UserService, UserDetailsService{
     @Override
     @Transactional
     public void updateUser(User user) {
+        if (user.getPassword() == null || user.getPassword().isBlank()) {
+            User dbUser = userDao.findUser(user.getId());
+            if (dbUser != null) {
+                user.setPassword(dbUser.getPassword());
+            }
+        } else if (!user.getPassword().startsWith("$2a$")) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        if (user.getRoles() == null || user.getRoles().isEmpty()) {
+            Role userRole = new Role("ROLE_USER");
+            user.addRole(userRole);
+        }
         userDao.updateUser(user);
     }
 

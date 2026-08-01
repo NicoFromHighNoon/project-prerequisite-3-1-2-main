@@ -12,7 +12,6 @@ import java.security.Principal;
 
 @Controller
 public class UserController {
-
     private final UserService userService;
 
     @Autowired
@@ -53,23 +52,15 @@ public class UserController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/edit")
-    public String editUserForm(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("user", userService.findUser(id));
-        return "user-form";
-    }
-
     @PostMapping("/admin/update")
     public String updateUser(@ModelAttribute("user") User user) {
         userService.updateUser(user);
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/delete")
+    @PostMapping("/admin/delete")
     public String deleteUser(@RequestParam("id") Long id) {
         userService.removeUser(id);
         return "redirect:/admin";
     }
-
-
 }
